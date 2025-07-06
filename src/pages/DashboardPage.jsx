@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
   const [formData, setFormData] = useState({ name: '', file: null });
   const [documents, setDocuments] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+
+
+    const navigate = useNavigate();
+
+const handleLogout = () => {
+  localStorage.removeItem('token');
+  navigate('/login');
+};
+
+
+
+
 
   const fetchDocuments = async () => {
     try {
@@ -39,6 +53,7 @@ export default function DashboardPage() {
       setError('Please enter a name and select a file');
       return;
     }
+
 
     const data = new FormData();
     data.append('name', formData.name);
@@ -75,9 +90,16 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-600 to-purple-700 p-4 text-white">
       <div className="max-w-2xl mx-auto bg-white text-black rounded-2xl shadow-lg p-8 mt-10">
-        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6 flex items-center justify-center gap-2">
-          📁 Document Dashboard
-        </h2>
+       <div className="flex justify-between items-center mb-6">
+  <h2 className="text-3xl font-bold text-indigo-700">📁 Document Dashboard</h2>
+  <button
+    onClick={handleLogout}
+    className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
+  >
+    Logout
+  </button>
+</div>
+
 
         {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
         {success && <p className="text-green-600 text-sm mb-3">{success}</p>}
