@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from '../api';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,10 +6,17 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) navigate('/dashboard');
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
+    setSuccess('');
   };
 
   const handleSubmit = async (e) => {
@@ -17,17 +24,19 @@ export default function LoginPage() {
     try {
       const res = await axios.post('/login', formData);
       localStorage.setItem('token', res.data.token);
-      navigate('/dashboard');
+      setSuccess('Login successful! Redirecting...');
+      setTimeout(() => navigate('/dashboard'), 1500);
     } catch (err) {
       setError(err.response?.data?.msg || 'Login failed');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="bg-white text-black w-full max-w-md p-8 rounded-3xl shadow-2xl transform transition-all duration-300 hover:scale-105 backdrop-blur-sm bg-opacity-90">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-tr from-indigo-500 to-purple-700">
+      <div className="bg-white text-black w-full max-w-md p-8 rounded-3xl shadow-2xl">
         <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">Welcome Back</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {success && <p className="text-green-500 text-sm mb-4">{success}</p>}
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="email"
