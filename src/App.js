@@ -4,7 +4,7 @@ import './index.css';
 
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
-const DashboardPage = () => <div>Dashboard Page (not built yet)</div>;
+import DashboardPage from './pages/DashboardPage'; // ✅ Corrected
 
 function App() {
   const isLoggedIn = localStorage.getItem('token');
