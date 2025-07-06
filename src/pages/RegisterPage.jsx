@@ -10,27 +10,31 @@ export default function RegisterPage() {
     password: '',
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setError('');
+    setSuccess('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post('/register', formData);
-      navigate('/login');
+      setSuccess('Registered successfully! Redirecting to login...');
+      setTimeout(() => navigate('/login'), 1500);
     } catch (err) {
       setError(err.response?.data?.msg || 'Registration failed');
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="bg-white text-black w-full max-w-md p-8 rounded-3xl shadow-2xl transform transition-all duration-300 hover:scale-105 backdrop-blur-sm bg-opacity-90">
+    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-tr from-purple-500 to-pink-600">
+      <div className="bg-white text-black w-full max-w-md p-8 rounded-3xl shadow-2xl">
         <h2 className="text-3xl font-bold text-center mb-6 text-purple-600">Create Your Account</h2>
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {success && <p className="text-green-500 text-sm mb-4">{success}</p>}
         <form onSubmit={handleSubmit} className="space-y-5">
           <input
             type="text"
