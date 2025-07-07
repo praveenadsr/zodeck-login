@@ -30,49 +30,65 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4 bg-gradient-to-tr from-purple-500 to-pink-600">
-      <div className="bg-white text-black w-full max-w-md p-8 rounded-3xl shadow-2xl">
-        <h2 className="text-3xl font-bold text-center mb-6 text-purple-600">Create Your Account</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        {success && <p className="text-green-500 text-sm mb-4">{success}</p>}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none"
-          />
-          <button
-            type="submit"
-            className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-600 hover:to-pink-700 transition duration-300"
-          >
-            Register
-          </button>
-        </form>
-        <p className="text-sm text-center mt-4">
-          Already have an account? <a href="/login" className="text-purple-500 hover:underline">Login</a>
-        </p>
+    <div className="relative pt-24 min-h-screen w-full">
+      {/* 🔹 Background Layer */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+        style={{ backgroundImage: "url('/background.jpg')" }}
+      />
+      <div className="absolute inset-0 bg-black/40 z-10" />
+
+      {/* 🔹 Register Form */}
+      <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
+        <div className="w-full max-w-md bg-white/20 text-white backdrop-blur-md p-10 rounded-2xl shadow-2xl">
+          <h2 className="text-3xl font-bold text-center mb-6">Create Your Account</h2>
+          {error && <p className="text-red-400 text-sm mb-4 text-center">{error}</p>}
+          {success && <p className="text-green-400 text-sm mb-4 text-center">{success}</p>}
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-md bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-md bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 rounded-md bg-white/30 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-white"
+            />
+
+            <button
+              type="submit"
+              className="w-full py-2 bg-blue-800 text-white font-semibold rounded-md hover:bg-blue-900 transition-transform transform hover:scale-105"
+            >
+              Register
+            </button>
+          </form>
+
+          <p className="text-sm text-center mt-4">
+            Already have an account?{" "}
+            <a href="/login" className="text-white underline hover:text-blue-300">
+              Login
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
