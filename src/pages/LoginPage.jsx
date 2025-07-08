@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/zodeck-logo.png"; // ✅ Your logo image
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -16,9 +17,18 @@ export default function LoginPage() {
       {/* 🔹 Login Form */}
       <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
         <div className="bg-white/30 backdrop-blur-xl border border-white/40 shadow-2xl p-10 rounded-3xl w-full max-w-md mx-auto transition duration-300 hover:scale-[1.01]">
-          <h2 className="text-3xl font-extrabold text-center text-white mb-6">
-            Login to Zodeck
-          </h2>
+          
+          {/* 🔹 Heading with Logo Inline */}
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <h2 className="text-3xl font-extrabold text-white">
+              Login to Zodeck
+            </h2>
+            <img
+              src={logo}
+              alt="Zodeck Logo"
+              className="w-8 h-8 object-contain rounded-full shadow-sm"
+            />
+          </div>
 
           <form className="space-y-5">
             <input
@@ -34,18 +44,11 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold rounded-md hover:from-pink-500 hover:to-purple-600 transition-transform transform hover:scale-105"
+              className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-md hover:from-pink-500 hover:to-purple-600 transition-transform transform hover:scale-105"
             >
               Login
             </button>
           </form>
-
-          <p className="text-sm text-center text-white mt-4">
-            Don’t have an account?{" "}
-            <a href="/register" className="underline hover:text-pink-300">
-              Register
-            </a>
-          </p>
         </div>
       </div>
     </div>
