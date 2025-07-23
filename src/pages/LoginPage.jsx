@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api";
 import logo from "../assets/zodeck-logo.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,42 +10,50 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
 
-  try {
-    const res = await fetch("http://13.203.198.63:3000/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch("http://13.203.198.63:3000/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.status === 200) {
-      console.log("✅ Login successful:", data);
-      localStorage.setItem("role", data.role);
-      navigate("/dashboard");
-    } else {
-      setError(data.msg || "Login failed. Try again.");
+      if (res.status === 200) {
+        console.log("✅ Login successful:", data);
+        localStorage.setItem("role", data.role);
+
+        toast.success("✅ Logged in successfully!", {
+          autoClose: 10000, // 10 seconds
+        });
+
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 10000); // Navigate after 10 seconds
+      } else {
+        setError(data.msg || "Login failed. Try again.");
+        toast.error(data.msg || "❌ Invalid credentials.");
+      }
+    } catch (err) {
+      console.error("❌ Login error:", err);
+      setError("Server unreachable or login error.");
+      toast.error("❌ Server unreachable or error occurred.");
     }
-  } catch (err) {
-    console.error("❌ Login error:", err);
-    setError("Server unreachable or login error.");
-  }
-};
-
+  };
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      <img
+      {/* <img
         src="/background.jpg"
         alt="Zodeck Background"
         className="absolute inset-0 w-full h-full object-cover z-0"
-      />
+      /> */}
 
       <div className="absolute inset-0 bg-black/50 z-10" />
 
@@ -89,6 +98,9 @@ const handleSubmit = async (e) => {
           </form>
         </div>
       </div>
+
+      {/* Toast container (must be outside main content) */}
+      <ToastContainer position="top-center" />
     </div>
   );
 }
