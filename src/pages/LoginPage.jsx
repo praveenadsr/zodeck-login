@@ -55,8 +55,10 @@ export default function LoginPage() {
         className="absolute inset-0 w-full h-full object-cover z-0"
       /> */}
 
-      <div className="absolute inset-0 bg-black/50 z-10" />
+      {/* ✅ Overlay */}
+      <div className="absolute inset-0 bg-black/40 z-10" />
 
+      {/* ✅ Login Form */}
       <div className="relative z-20 flex items-center justify-center h-full px-4">
         <div className="bg-white/30 backdrop-blur-lg border border-white/40 shadow-2xl p-10 rounded-2xl w-full max-w-md">
           <div className="flex items-center justify-center gap-2 mb-6">
