@@ -1,22 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../api";
 import logo from "../assets/zodeck-logo.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+
+  try {
+    const res = await fetch("http://13.203.198.63:3000/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+
+    if (res.status === 200) {
+      console.log("✅ Login successful:", data);
+      localStorage.setItem("role", data.role);
+      navigate("/dashboard");
+    } else {
+      setError(data.msg || "Login failed. Try again.");
+    }
+  } catch (err) {
+    console.error("❌ Login error:", err);
+    setError("Server unreachable or login error.");
+  }
+};
+
 
   return (
-    <div
-      className="relative w-full h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/background.jpg')" }} // ✅ Ensure this image is high quality
-    >
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+    <div className="relative w-full h-screen overflow-hidden">
+      <img
+        src="/background.jpg"
+        alt="Zodeck Background"
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      />
 
-      {/* Login Box */}
-      <div className="relative z-10 flex items-center justify-center h-full px-4">
-        <div className="bg-white/30 backdrop-blur-md border border-white/40 shadow-2xl p-10 rounded-2xl w-full max-w-md transition duration-300 hover:scale-[1.01]">
-          {/* Heading */}
+      <div className="absolute inset-0 bg-black/50 z-10" />
+
+      <div className="relative z-20 flex items-center justify-center h-full px-4">
+        <div className="bg-white/30 backdrop-blur-lg border border-white/40 shadow-2xl p-10 rounded-2xl w-full max-w-md">
           <div className="flex items-center justify-center gap-2 mb-6">
             <h2 className="text-2xl font-bold text-white">Login to Zodeck</h2>
             <img
@@ -26,17 +59,26 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Form */}
-          <form className="space-y-4">
+          {error && (
+            <div className="text-red-500 bg-white bg-opacity-80 p-2 rounded mb-4 text-center">
+              {error}
+            </div>
+          )}
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Email or Employee ID"
-              className="w-full px-4 py-3 rounded-md bg-white/70 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-3 rounded-md bg-white/80 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <input
               type="password"
               placeholder="Password"
-              className="w-full px-4 py-3 rounded-md bg-white/70 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-md bg-white/80 text-black placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
             <button
               type="submit"

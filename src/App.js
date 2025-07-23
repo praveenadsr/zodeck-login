@@ -13,13 +13,13 @@ function App() {
     <Router>
       {/* <Navbar /> ✅ Always show */}
       <Routes>
-        <Route path="/" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
+        {/* <Route path="/" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} /> */}
         <Route path="/login" element={<LoginPage />} />
         {/* <Route
           path="/dashboard"
           element={isLoggedIn ? <DashboardPage /> : <Navigate to="/login" />}
         /> */}
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );
